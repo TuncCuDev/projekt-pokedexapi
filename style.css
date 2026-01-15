@@ -32,11 +32,8 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     color: #ffffffde;
+    margin-top: 25px;
 }
 
 .pokedex-logo-footer {
@@ -44,6 +41,10 @@ p {
     padding-right: 15px;
 }
 
-main {
+.main-card {
     background-color: black;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
 }
