@@ -8,7 +8,7 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: #09172dde;
-    height: 75px;
+    height: 100px;
 }
 
 .pokedex-logo {
@@ -19,11 +19,6 @@ body {
 .header-left {
     display: flex;
     justify-content: space-between;
-    padding-left: 20px;
-}
-
-.header-right {
-    padding-right: 20px;
 }
 
 p {
@@ -33,7 +28,7 @@ p {
 
 .footer {
     background-color: #09172dde;
-    height: 75px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,4 +42,8 @@ p {
 .pokedex-logo-footer {
     height: 60px;
     padding-right: 15px;
+}
+
+main {
+    background-color: black;
 }
