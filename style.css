@@ -32,7 +32,6 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 25px;
     color: #ffffffde;
 }
 
@@ -41,13 +40,17 @@ p {
     padding-right: 15px;
 }
 
-main {
-    background-color: black;
-}
-
-#contenet {
+#content {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 25px;
+    padding: 75px 0px;
+    background-color: #0c0c0ce0;;
+}
+
+.card-inside {
+    background-color: #293548;
+    padding: 10px 10px;
+    border-radius: 8px;
 }

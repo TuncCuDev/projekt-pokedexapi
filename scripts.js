@@ -14,6 +14,7 @@ async function loadPokemon() {
     pokemon = responseToJson.results;
 
     showPokemon();
+    getIdFromURL();
 }
 
 
@@ -22,22 +23,35 @@ function showPokemon() {
     pokemonContent.innerHTML = "";
 
     for (let i = 0; i < pokemon.length; i++) {
-        let p = pokemon[i];
+        let singlePokemon = pokemon[i];
+        let id = getIdFromURL(singlePokemon);
 
-    pokemonContent.innerHTML += getPokemonTemplates(p);
+    pokemonContent.innerHTML += getPokemonTemplates(singlePokemon, id);
     }
 }
 
 
-function getPokemonTemplates(p) {
-    return `<section class="main-card">
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">${p.name}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+function getIdFromURL(singlePokemon) {
+    let url = singlePokemon.url
+    let seperateURL = url.split("/");
+    let id = seperateURL[seperateURL.length-2]
+    console.log(id);
+    return id;
+}
+
+
+function getPokemonTemplates(singlePokemon, id) {
+    return `<main class=""main-card>  
+                <section class="card-inside">
+                    <div class="card" style="width: 18rem;">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <p class="card-id"></p>
+                        <span>${id} </span>
+                        <h5 class="card-title">${singlePokemon.name}</h5>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
                     </div>
-                </div>
-            </section>`
+                </section>
+            </main>`
 }
