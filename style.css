@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    max-width: 1440px;
+    max-width: 1920px;
 }
 
 .header {
@@ -58,4 +58,25 @@ p {
 .card-body{
     border-radius: 40px;
     background-color: #e07171;
+}
+
+.pokemon-types {
+    padding: 3px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pokemon-type {
+    padding: 3px 40px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.main-card:hover {
+    transform: scale(1.1); 
+    cursor: pointer;
 }

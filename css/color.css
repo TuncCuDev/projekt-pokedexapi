@@ -1,0 +1,28 @@
+.fire {
+    background-color: red;
+}
+
+.water {
+    background-color: #8ec3cf;
+}
+
+.poison {
+    background-color: rgb(187 120 3);
+}
+
+.bug {
+    background-color: rgb(93 137 81);
+}
+
+.grass {
+    background-color: rgb(101 142 116);
+}
+
+.flying {
+    background-color: rgb(53 103 113);
+}
+
+.normal {
+    background-color: blanchedalmond;
+}
+
