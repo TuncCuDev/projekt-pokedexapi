@@ -1,6 +1,9 @@
 const Pokedex_URL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
 
 let pokemon = [];
+let currentPokemonIndex = 0;
+let currentPokemonData = null;
+let currentTab = "main";
 
 
 function loadAndShowPokemon() {
@@ -16,15 +19,29 @@ async function loadPokemon() {
     await showPokemon();
 }
 
+
+async function getPokemonDetails(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    return data;
+}
+
+
 async function getPokemonTypes(id) {
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     let data = await response.json();
 
     let types = [];
     for (let i = 0; i < data.types.length; i++){
-
         types[i] = data.types[i].type.name;
     } return types;
+}
+
+async function getPokemonMainInfo(id) {
+     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+
+    console.log(data)
 }
 
 
@@ -48,6 +65,19 @@ function getIdFromURL(singlePokemon) {
     let seperateURL = url.split("/");
     let id = seperateURL[seperateURL.length-2];
     return id;
+}
+
+
+function buildAbilitiesHTML(abilities) {
+    let html ="";
+    for (let i = 0; i < abilities.length; i++) {
+        html += abilities[i].ability.name;
+    
+        if(i < abilities.length - 1){
+            html += ", ";
+        }
+    }
+    return html;
 }
 
 
@@ -75,27 +105,35 @@ function getPokemonTemplates(singlePokemon, id, types) {
 }
 
 async function openPokemonCard(id) {
-    let selectedPokemon;
+    currentPokemonData = await getPokemonDetails(id);
 
+    let height = currentPokemonData.height;
+    let weight = currentPokemonData.weight;
+    let baseExperience = currentPokemonData.base_experience;
+   
+
+    let abilitiesHTML = buildAbilitiesHTML(currentPokemonData.abilities);
+    
+  
     for (let i = 0; i < pokemon.length; i++) {
         if (getIdFromURL(pokemon[i]) == id) {
-        selectedPokemon = pokemon[i];
+        currentPokemonIndex = i;
         break;
         }    
     }
-
+    
+    let selectedPokemon = pokemon[currentPokemonIndex];
     let types = await getPokemonTypes(id);
 
     let overlay = document.getElementById('overlay');
     let overlayCard = document.getElementById('overlay-card');
 
     overlay.classList.remove('d_none');
-    console.log(id, selectedPokemon.name );
-    overlayCard.innerHTML = getOverlayCard(id, selectedPokemon.name, types);
+    overlayCard.innerHTML = getOverlayCard(id, selectedPokemon.name, types, height, weight, baseExperience, abilitiesHTML);
 }
 
 
-function getOverlayCard(id, name, types) {
+function getOverlayCard(id, name, types, height, weight, baseExperience, abilitiesHTML) {
     let typesHTML = "";
 
     for (let i = 0; i < types.length; i++) {
@@ -107,25 +145,110 @@ function getOverlayCard(id, name, types) {
                 <div class="header-first-line">
                     <div id="overlayPokemonId">#${id}</div>
                     <div id="overlayPokemonName">${name}</div>
-                    <p class="overlay-close-button" onclick="closePokemonCard()"> X </p>
+                    <button class="btn-close overlay-close-button" onclick="closePokemonCard()"></button>
                 </div>
                 <div class="header-second-line">
-                    <img class="overlay-pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
+                    <img class="overlay-pokemon-image" id="overlayPokemonImage" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
                 </div>
-                <div class="overlay-pokemon-types">
+                <div class="overlay-pokemon-types" id="overlayPokemonTypes">
                     ${typesHTML}
                 </div>
             </header>
+            <main>
+                    <a class="nav-link active overlay-link">Main</a>
+                    <div class="overlay-content">
+                    <table> 
+                        <tr>
+                            <td class="padding-bottom padding-right"> Height:</td>
+                            <td id="overlayHeight" class="padding-bottom">${height} m</td>
+                        </tr>
+                        <tr>
+                            <td class="padding-bottom padding-right">Weight:</td>
+                            <td class="padding-bottom" id="overlayWeight">${weight} kg</td>
+                        </tr>
+                        <tr>
+                            <td class="padding-bottom padding-right">Base Experience:</td>
+                            <td class="padding-bottom" id="overlayBaseExp">${baseExperience}</td>
+                        </tr>
+                        <tr>
+                            <td class="padding-bottom padding-right">Abilities:</td>
+                            <td class="padding-bottom" id="overlayAbilities">${abilitiesHTML}</td>
+                        </tr>
+                    </table>
+                    </div>
+            </main>
 
-        <main>
-            
-        </main>
+            <footer class="overlay-footer">
+                <div class="button" onclick="openPreviousPokemon()"> << </div> <div class="button" onclick="openNextPokemon()">>></div>
+            </footer>
 
         </div>
            `
 }
 
+
 function closePokemonCard() {
     document.getElementById('overlay').classList.add('d_none');
     document.getElementById('overlay-card').innerHTML = "";
+}
+
+
+async function openNextPokemon() {
+    currentPokemonIndex ++;
+
+    if (currentPokemonIndex >= pokemon.length) {
+        currentPokemonIndex = 0;
+    }
+
+    let selectedPokemon = pokemon[currentPokemonIndex];
+    let id = getIdFromURL(selectedPokemon);
+
+    currentPokemonData = await getPokemonDetails(id);
+
+    document.getElementById('overlayPokemonId').innerText = `#${id}`;
+    document.getElementById('overlayPokemonName').innerText = selectedPokemon.name;
+    document.getElementById('overlayPokemonImage').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+
+    document.getElementById('overlayHeight').innerText = `${currentPokemonData.height} m`;
+    document.getElementById('overlayWeight').innerText = `${currentPokemonData.weight} kg`;
+    document.getElementById('overlayBaseExp').innerText = ` ${currentPokemonData.base_experience}`;
+    document.getElementById('overlayAbilities').innerHTML = buildAbilitiesHTML(currentPokemonData.abilities);
+
+
+    let types = await getPokemonTypes(id);
+    let typesHTML = "";
+    for (let i = 0; i < types.length; i++) {
+    typesHTML += `<span class="pokemon-type overlay-pokemon-type ${types[i]}">${types[i]}</span>`;
+    }
+    document.getElementById('overlayPokemonTypes').innerHTML = typesHTML;
+}
+
+
+async function openPreviousPokemon() {
+    currentPokemonIndex --;
+
+    if (currentPokemonIndex < 0) {
+        currentPokemonIndex = pokemon.length -1;
+    }
+
+    let selectedPokemon = pokemon[currentPokemonIndex];
+    let id = getIdFromURL(selectedPokemon);
+
+    currentPokemonData = await getPokemonDetails(id);
+
+    document.getElementById('overlayPokemonId').innerText = `#${id}`;
+    document.getElementById('overlayPokemonName').innerText = selectedPokemon.name;
+    document.getElementById('overlayPokemonImage').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+
+    document.getElementById('overlayHeight').innerText = `${currentPokemonData.height} m`;
+    document.getElementById('overlayWeight').innerText = `${currentPokemonData.weight} kg`;
+    document.getElementById('overlayBaseExp').innerText = `${currentPokemonData.base_experience}`;
+    document.getElementById('overlayAbilities').innerHTML = buildAbilitiesHTML(currentPokemonData.abilities);
+
+    let types = await getPokemonTypes(id);
+    let typesHTML = "";
+    for (let i = 0; i < types.length; i++) {
+    typesHTML += `<span class="pokemon-type overlay-pokemon-type ${types[i]}">${types[i]}</span>`;
+    }
+    document.getElementById('overlayPokemonTypes').innerHTML = typesHTML;
 }
