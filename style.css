@@ -78,3 +78,20 @@ p {
     background-color: #2a2a2a;
     padding-bottom: 30px;
 }
+
+.loader {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 300px;
+    height: 300px;
+    border: 16px solid #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear alternate-reverse;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
