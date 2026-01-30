@@ -1,28 +1,55 @@
 .fire {
-    background-color: red;
+    color: red;
 }
 
 .water {
-    background-color: #8ec3cf;
+    color: #8ec3cf;
 }
 
 .poison {
-    background-color: rgb(187 120 3);
+    color: rgb(187 120 3);
 }
 
 .bug {
-    background-color: rgb(93 137 81);
+    color: rgb(93 137 81);
 }
 
 .grass {
-    background-color: rgb(101 142 116);
+    color: rgb(101 142 116);
 }
 
 .flying {
-    background-color: rgb(53 103 113);
+    color: rgb(53 103 113);
 }
 
 .normal {
-    background-color: blanchedalmond;
+    color: blanchedalmond;
 }
 
+.ground {
+    color: brown;
+}
+
+.fairy {
+    color: pink;
+}
+
+.fighting {
+     color: bisque;
+}
+
+.psychic {
+    color: rosybrown;
+}
+
+.rock {
+    color: rgb(222, 204, 187);
+}
+
+.electric {
+    color: aquamarine;
+}
+
+.steel {
+    color: blueviolet;
+}

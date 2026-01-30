@@ -62,12 +62,19 @@ p {
 }
 
 .pokemon-type {
-    padding: 3px 40px;
+    padding: 3px 25px;
     font-weight: 600;
     font-size: 16px;
+    background-color: rgb(41 53 72);
 }
 
 .main-card:hover {
     transform: scale(1.1); 
     cursor: pointer;
+}
+
+.button-show-more {
+    text-align: center;
+    background-color: #2a2a2a;
+    padding-bottom: 30px;
 }

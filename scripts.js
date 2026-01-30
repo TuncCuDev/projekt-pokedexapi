@@ -1,9 +1,7 @@
-const Pokedex_URL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
-
+let nextURL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
 let pokemon = [];
 let currentPokemonIndex = 0;
 let currentPokemonData = null;
-let currentTab = "main";
 
 
 function loadAndShowPokemon() {
@@ -12,9 +10,16 @@ function loadAndShowPokemon() {
 
 
 async function loadPokemon() {
-    let response = await fetch(Pokedex_URL)
-    responseToJson = await response.json();
-    pokemon = responseToJson.results;
+    if (!nextURL) return;
+
+    let response = await fetch(nextURL)
+    let data = await response.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+        pokemon.push(data.results[i]);
+    }
+    
+    nextURL = data.next
 
     await showPokemon();
 }
@@ -125,10 +130,11 @@ async function openPokemonCard(id) {
     let selectedPokemon = pokemon[currentPokemonIndex];
     let types = await getPokemonTypes(id);
 
+    let overlayMain = document.getElementById('overlayMain')
     let overlay = document.getElementById('overlay');
     let overlayCard = document.getElementById('overlay-card');
 
-    overlay.classList.remove('d_none');
+    overlayMain.classList.remove('d_none');
     overlayCard.innerHTML = getOverlayCard(id, selectedPokemon.name, types, height, weight, baseExperience, abilitiesHTML);
 }
 
@@ -140,7 +146,7 @@ function getOverlayCard(id, name, types, height, weight, baseExperience, abiliti
         typesHTML += `<span class="pokemon-type overlay-pokemon-type ${types[i]}">${types[i]}</span>`;
     }
 
-    return `<div class="main-overlay">
+    return `<div class="main-overlay" onclick="event.stopPropagation()">
             <header>
                 <div class="header-first-line">
                     <div id="overlayPokemonId">#${id}</div>
@@ -188,7 +194,7 @@ function getOverlayCard(id, name, types, height, weight, baseExperience, abiliti
 
 
 function closePokemonCard() {
-    document.getElementById('overlay').classList.add('d_none');
+    document.getElementById('overlayMain').classList.add('d_none');
     document.getElementById('overlay-card').innerHTML = "";
 }
 
@@ -251,4 +257,13 @@ async function openPreviousPokemon() {
     typesHTML += `<span class="pokemon-type overlay-pokemon-type ${types[i]}">${types[i]}</span>`;
     }
     document.getElementById('overlayPokemonTypes').innerHTML = typesHTML;
+}
+
+
+async function showMorePokemon() {
+     let responseMore = await fetch(morePokedex_URL)
+    responseToJsonMore = await responseMore.json();
+    pokemon = responseToJsonMore.results;
+
+    await showPokemon();
 }

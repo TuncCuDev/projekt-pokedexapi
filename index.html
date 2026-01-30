@@ -32,14 +32,22 @@
         </div>
     </header>
 
-    <div id="content"></div>
+    <div id="content">
 
-    <section>x
-        <div id="overlay" class="overlay d_none">
-            <div id="overlay-card"></div>
-       
+    </div>
+
+    <div class="button-show-more">
+        <button class="btn btn-secondary btn-lg" onclick="loadPokemon()">Show more</button>
+    </div>
+    
+    <div id="overlayMain" class="d_none">
+        <div id="overlay" class="overlay" onclick="closePokemonCard()">
+        <div id="overlay-card"></div>
         </div>
-        </section>
+    </div>
+
+    
+
 
     <footer class="footer">
         <img src="./img/logo.png" class="pokedex-logo-footer" alt="Pokedex-Logo">
