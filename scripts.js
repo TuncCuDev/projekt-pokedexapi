@@ -1,4 +1,5 @@
-let nextURL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
+let limit= 20;
+let offset = 0;
 let pokemon = [];
 let currentPokemonIndex = 0;
 let currentPokemonData = null;
@@ -6,42 +7,59 @@ let currentPokemonData = null;
 
 async function loadAndShowPokemon() {
     showLoadingSpinner();
-    await loadPokemon();
-    
+    loadPokemon();  
     setTimeout(() => {
-        disabledLoadingSpinner();
+       disabledLoadingSpinner();
     }, 2000);
 }
 
 
 async function loadMorePokemon() {
-    showLoadingSpinner();      
-    await loadPokemon();        
-
+    showLoadingSpinner();   
     setTimeout(() => {
-        hideLoadingSpinner();   
+         loadPokemon();  
+    }, 2000)   
+    setTimeout(() => {
+        disabledLoadingSpinner();   
     }, 2000); 
 }
 
-async function loadPokemon() {
-    if (!nextURL) return;
 
-    let response = await fetch(nextURL)
+async function loadPokemon() {
+    let URL = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+
+    let response = await fetch(URL)
     let data = await response.json();
 
     for (let i = 0; i < data.results.length; i++) {
         pokemon.push(data.results[i]);
     }
     showPokemon();
-    nextURL = data.next
+    offset += limit;
 }
+
+
+function searchForPokemon() {
+    let list = document.getElementById('search-pokemon').value;
+    let pokemonList = pokemon.filter(p=>p.name.includes(list));
+    
+    if (pokemonList.length > 0) {
+    showPokemon(pokemonList);
+    } else {
+    document.getElementById("content").innerHTML = "<p>There is no Pokemon with this name.</p>";
+    }
+}
+
 
 function showLoadingSpinner() {
     document.getElementById('loadingSpinner').classList.remove('d_none');
+    document.getElementById('overlay-spinner').classList.remove('d_none');
 }
+
 
 function disabledLoadingSpinner() {
     document.getElementById('loadingSpinner').classList.add('d_none');
+    document.getElementById('overlay-spinner').classList.add('d_none');
 }
 
 
@@ -63,12 +81,12 @@ async function getPokemonTypes(id) {
 }
 
 
-async function showPokemon() {
+async function showPokemon(pokemonList = pokemon) {
     let pokemonContent = document.getElementById("content");
     pokemonContent.innerHTML = "";
 
-    for (let i = 0; i < pokemon.length; i++) {
-        let singlePokemon = pokemon[i];
+    for (let i = 0; i < pokemonList.length; i++) {
+        let singlePokemon = pokemonList[i];
         let id = getIdFromURL(singlePokemon);
         let types = await getPokemonTypes(id);
 

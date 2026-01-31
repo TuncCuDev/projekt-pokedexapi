@@ -121,6 +121,11 @@
 
 .button:hover {
     cursor: pointer;
+    background-color: #ff00006d;
+}
+
+.overlay-close-button:hover {
+    background-color: white;
 }
 
 .padding-bottom {
@@ -136,7 +141,7 @@
 
 .overlay-content table td:last-child {
     text-align: left;
-    padding-left: 50px;
+    padding-left: 10px;
 }
 
 #overlayMain {
