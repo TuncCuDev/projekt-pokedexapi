@@ -20,13 +20,14 @@ function getOverlayCard(id, name, types, height, weight, baseExperience, abiliti
 
 function closePokemonCard() {
     document.getElementById('overlayMain').classList.add('d_none');
+    document.body.classList.remove('no-scroll');
     document.getElementById('overlay-card').innerHTML = "";
 }
 
 
 async function openNextPokemon() {
     currentPokemonIndex ++;
-
+    
     if (currentPokemonIndex >= pokemon.length) {
         currentPokemonIndex = 0;
     }

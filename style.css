@@ -47,10 +47,6 @@ body {
     color: #ffffffde;
 }
 
-main {
-    flex: 1;
-}
-
 .main-page {
     flex: 1; 
     display: flex;
@@ -132,6 +128,10 @@ p {
     width: 100%;
 }
 
+body.overlay-open { 
+    overflow: hidden
+}
+
 .overlay-spinner{
     position: fixed;
     top: 0;
@@ -157,3 +157,4 @@ p {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
