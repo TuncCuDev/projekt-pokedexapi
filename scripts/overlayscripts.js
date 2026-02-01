@@ -4,6 +4,7 @@ function renderPokemonOverlayCard(id, selectedPokemon, currentPokemonData, types
     let overlayMain = document.getElementById('overlayMain');
     let overlayCard = document.getElementById('overlay-card');
     overlayMain.classList.remove('d_none');
+    document.body.classList.add('no-scroll');
 
     overlayCard.innerHTML = getOverlayCard(id, selectedPokemon.name, types, height, weight, baseExperience, abilitiesHTML);
 }
