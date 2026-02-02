@@ -32,23 +32,26 @@ function openOverlayCard(id, name, typesHTML, height, weight, baseExperience, ab
                 </div>
             </header>
             <main>
-                <a class="nav-link active overlay-link">Main</a>
-                    <div class="overlay-content">
+                <div class="main-first-line">
+                <button class="overlay-link btn btn-outline-dark" onclick="openMain()">Main</button>
+                <button id="statsButton" class="overlay-link btn btn-outline-dark" onclick="openStats()">Stats</button>
+                </div>
+                    <div class="overlay-content" id="mainButton" >
                         <table> 
                             <tr>
-                                <td class="padding-bottom padding-right"> Height:</td>
+                                <td id="one" class="padding-bottom padding-right">Height:</td>
                                 <td id="overlayHeight" class="padding-bottom">${height} m</td>
                             </tr>
                             <tr>
-                                <td class="padding-bottom padding-right">Weight:</td>
+                                <td id="two" class="padding-bottom padding-right">Weight:</td>
                                 <td class="padding-bottom" id="overlayWeight">${weight} kg</td>
                             </tr>
                             <tr>
-                                <td class="padding-bottom padding-right">Base Experience:</td>
+                                <td id="three" class="padding-bottom padding-right">Base Experience:</td>
                                 <td class="padding-bottom" id="overlayBaseExp">${baseExperience}</td>
                             </tr>
                             <tr>
-                                <td class="padding-bottom padding-right">Abilities:</td>
+                                <td id="four" class="padding-bottom padding-right">Abilities:</td>
                                 <td class="padding-bottom" id="overlayAbilities">${abilitiesHTML}</td>
                             </tr>
                         </table>

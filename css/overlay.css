@@ -24,7 +24,6 @@
     padding: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     color: white;
-    overflow: hidden;
     position: relative;
 }
 
@@ -136,7 +135,6 @@
 .overlay-content table td:first-child {
     width: 150px;
     font-weight: bold;
-    text-align: right;
     padding-right: 10px;
 }
 
@@ -148,3 +146,10 @@
 body.no-scroll {
   overflow: hidden;
 }
+
+.main-first-line {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0;
+}
+

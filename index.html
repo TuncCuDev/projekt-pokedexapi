@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokedexAPI</title>
 
+    <link rel="icon" href="./img/logo.png">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./css/overlay.css">
     <link rel="stylesheet" href="./css/color.css">
@@ -48,7 +49,8 @@
         </div>
 
         <div class="button-show-more">
-            <button class="btn btn-secondary btn-lg" onclick="loadMorePokemon()">Show more</button>
+            <button id="changeToBack" class="btn btn-secondary btn-lg" onclick="loadMorePokemon()">Show more</button>
+            <button id="comeBack" class="btn btn-secondary btn-lg d_none" onclick="comeBackToMain()">Return</button>
         </div>
     
         <div id="overlayMain" class="d_none">

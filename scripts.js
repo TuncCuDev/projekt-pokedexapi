@@ -5,6 +5,8 @@ let currentPokemonIndex = 0;
 let currentPokemonData = null;
 let currentPokemonId = null;
 let selectedPokemon = null;
+let availablePokemonList = pokemon;
+let pokemonData = {};
 
 
 async function loadAndShowPokemon() {
@@ -36,6 +38,7 @@ async function loadPokemon() {
     for (let i = 0; i < data.results.length; i++) {
         pokemon.push(data.results[i]);
     }
+    availablePokemonList = pokemon;
     showPokemon();
     offset += limit;
 }
@@ -46,12 +49,21 @@ function searchForPokemon() {
     let pokemonList = pokemon.filter(p=>p.name.includes(list));
     
     if (pokemonList.length > 0) {
-    showPokemon(pokemonList);
+        availablePokemonList = pokemonList;
+        showPokemon(pokemonList);
+        document.getElementById('changeToBack').classList.add('d_none');
+        document.getElementById('comeBack').classList.remove('d_none'); 
     } else {
     document.getElementById("content").innerHTML = "<p>There is no Pokemon with this name.</p>";
     }
 
     document.getElementById('search-pokemon').value = "";
+}
+
+function comeBackToMain() {
+    showPokemon();
+    document.getElementById('changeToBack').classList.remove('d_none');
+    document.getElementById('comeBack').classList.add('d_none'); 
 }
 
 
@@ -68,16 +80,26 @@ function disabledLoadingSpinner() {
 
 
 async function getPokemonDetails(id) {
+    return await loadPokemonDetails(id)
+}
+
+
+async function loadPokemonDetails(id) {
+    if (pokemonData[id]) {
+        return pokemonData[id];
+    }
+
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     let data = await response.json();
 
+    pokemonData[id] = data;
+    
     return data;
 }
 
 
 async function getPokemonTypes(id) {
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    let data = await response.json();
+    let data = await loadPokemonDetails(id);
 
     let types = [];
     for (let i = 0; i < data.types.length; i++){
@@ -135,7 +157,7 @@ async function openPokemonCard(id) {
     currentPokemonId = id;
 
     findCurrentPokemonIndex(id);
-    selectedPokemon = pokemon[currentPokemonIndex];
+    selectedPokemon = availablePokemonList[currentPokemonIndex];
 
     let height = currentPokemonData.height;
     let weight = currentPokemonData.weight;
@@ -148,8 +170,8 @@ async function openPokemonCard(id) {
 
 
 function findCurrentPokemonIndex(id) {
-        for (let i = 0; i < pokemon.length; i++) {
-            if (getIdFromURL(pokemon[i]) == id) {
+        for (let i = 0; i < availablePokemonList.length; i++) {
+            if (getIdFromURL(availablePokemonList[i]) == id) {
             currentPokemonIndex = i;
             break;
             }    

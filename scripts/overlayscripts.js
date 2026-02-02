@@ -29,11 +29,11 @@ function closePokemonCard() {
 async function openNextPokemon() {
     currentPokemonIndex ++;
     
-    if (currentPokemonIndex >= pokemon.length) {
+    if (currentPokemonIndex >= availablePokemonList.length) {
         currentPokemonIndex = 0;
     }
 
-    selectedPokemon = pokemon[currentPokemonIndex];
+    selectedPokemon = availablePokemonList[currentPokemonIndex];
     currentPokemonId = getIdFromURL(selectedPokemon);
 
     currentPokemonData = await getPokemonDetails(currentPokemonId);
@@ -47,10 +47,10 @@ async function openPreviousPokemon() {
     currentPokemonIndex --;
 
     if (currentPokemonIndex < 0) {
-        currentPokemonIndex = pokemon.length -1;
+        currentPokemonIndex = availablePokemonList.length -1;
     }
 
-    selectedPokemon = pokemon[currentPokemonIndex];
+    selectedPokemon = availablePokemonList[currentPokemonIndex];
     currentPokemonId = getIdFromURL(selectedPokemon);
 
     currentPokemonData = await getPokemonDetails(currentPokemonId);
@@ -81,5 +81,51 @@ function updatePokemonOverlay() {
     document.getElementById('overlayAbilities').innerHTML = buildAbilitiesHTML(currentPokemonData.abilities);
 }
 
+
+function openMain() {
+    document.getElementById('one').innerHTML = 'Height';
+    document.getElementById('overlayHeight').innerHTML = currentPokemonData.height + 'm';
+    document.getElementById('two').innerHTML = 'Weight';
+    document.getElementById('overlayWeight').innerHTML = currentPokemonData.weight + 'm';
+    document.getElementById('three').innerHTML = 'Base Experience';
+    document.getElementById('overlayBaseExp').innerHTML = currentPokemonData.base_experience ;
+    document.getElementById('four').innerHTML = 'Abilitites';
+    document.getElementById('overlayAbilities').innerHTML = buildAbilitiesHTML(currentPokemonData.abilities);
+}
+
+
+function openStats() {
+    let stats = currentPokemonData.stats;
+  
+    document.getElementById('one').innerHTML = 'HP';
+    document.getElementById('overlayHeight').innerHTML =  `
+        <div class="progress">
+            <div class="progress-bar" style="width:${stats[0].base_stat}%">
+                ${stats[0].base_stat}
+            </div>
+        </div>`;
+    document.getElementById('two').innerHTML = 'Attack';
+    document.getElementById('overlayWeight').innerHTML = `
+        <div class="progress">
+            <div class="progress-bar" style="width:${stats[1].base_stat}%">
+                ${stats[1].base_stat}
+            </div>
+        </div>
+    `;
+    document.getElementById('three').innerHTML = 'Defense';
+    document.getElementById('overlayBaseExp').innerHTML = `
+        <div class="progress">
+            <div class="progress-bar" style="width:${stats[2].base_stat}%">
+                ${stats[2].base_stat}
+            </div>
+        </div>`;
+    document.getElementById('four').innerHTML = 'Speed';
+    document.getElementById('overlayAbilities').innerHTML = `
+        <div class="progress">
+            <div class="progress-bar" style="width:${stats[5].base_stat}%">
+                ${stats[5].base_stat}
+            </div>
+        </div>`;
+}
 
 
