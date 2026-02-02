@@ -55,10 +55,13 @@ function searchForPokemon() {
         document.getElementById('comeBack').classList.remove('d_none'); 
     } else {
     document.getElementById("content").innerHTML = "<p>There is no Pokemon with this name.</p>";
+    document.getElementById('changeToBack').classList.add('d_none');
+    document.getElementById('comeBack').classList.remove('d_none'); 
     }
 
     document.getElementById('search-pokemon').value = "";
 }
+
 
 function comeBackToMain() {
     showPokemon();
